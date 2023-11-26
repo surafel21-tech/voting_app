@@ -26,6 +26,20 @@ export class ProductList extends React.Component {
         products: nextProducts,
       });
     }
+    handleProductUnVote = (productId) => {
+      const nextProducts = this.state.products.map((product) => {
+        if (product.id === productId) {
+          return Object.assign({}, product, {
+            votes: product.votes - 1,
+          });
+        } else {
+          return product;
+        }
+      });
+      this.setState({
+        products: nextProducts,
+      });
+    }
   
     render() {
       const products = this.state.products.sort((a, b) => (
@@ -42,6 +56,7 @@ export class ProductList extends React.Component {
           submitterAvatarUrl={product.submitterAvatarUrl}
           productImageUrl={product.productImageUrl}
           onVote={this.handleProductUpVote}
+          onUnVote = {this.handleProductUnVote}
         />
       ));
       return (
@@ -58,6 +73,9 @@ export class ProductList extends React.Component {
     handleUpVote = () => {
       this.props.onVote(this.props.id);
     }
+    handleUnVote = () => {
+      this.props.onUnVote(this.props.id);
+    }
   
     render() {
       return (
@@ -71,6 +89,12 @@ export class ProductList extends React.Component {
                 <i className='large caret up icon' />
               </a>
               {this.props.votes}
+            </div>
+            <div className='header'>
+              <a onClick={this.handleUnVote}>
+                <i className='large caret up icon' /> 
+              </a>
+             
             </div>
             <div className='description'>
               <a href={this.props.url}>
